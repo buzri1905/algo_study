@@ -29,7 +29,7 @@ void prime_checker() {
 	{
 		if (not_prime[i] == false) 
 		{
-			for (int j = 2 * i; j < 10000; j += i)
+			for (int j = i * i; j < 10000; j += i)
 			{
 				not_prime[j] = true;
 			}
