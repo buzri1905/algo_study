@@ -63,7 +63,8 @@ void bfs(int from, int to) {
 		}
 		for (int i = 1; i < 10; i++)//맨 앞자리 수는 0이 올 수 없다.
 		{
-			if (from_arr[0] == i) continue;
+			if (from_arr[0] == i)
+			    continue;
 			int cmp = i * 1000 + from_arr[1] * 100 + from_arr[2] * 10 + from_arr[3];
 			if (!not_prime[cmp]&&vis[cmp]==0)
 			{
