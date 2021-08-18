@@ -37,11 +37,8 @@ void make_arr(int idx,int _num) {
 	{
 		for (int i = 0; i < _num; i++)
 		{
-			if (inequ[i] == '>')
-			{
-				if (arrange[i] < arrange[i + 1])
+			if (inequ[i] == '>' && arrange[i] < arrange[i + 1])
 					return;
-			}
 			if (inequ[i] == '<')
 			{
 				if (arrange[i] > arrange[i + 1])
