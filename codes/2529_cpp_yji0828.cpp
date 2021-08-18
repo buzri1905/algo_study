@@ -1,69 +1,54 @@
 #include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
 using namespace std;
 
-char list[10];
+int k;
+char sign[11];
+int num[11];
+bool check[11];
+vector<string> answers;
+string maximum, minimum;
 
-void max(int k, char * list) {
-    int top = 9;
-    int num_right = 0;
-
-    for (int j = 0; j < k; j++) {
-        if (list[j] == '<') {
-            num_right++;
-        }
-
-        else {
-            for (int k = top - num_right; k <= top; k++) {
-                cout << k;
-            }
-            top = top - num_right - 1;
-            num_right = 0;
-        }
-    }
-    for (int t = top - num_right; t <= top; t++) {
-        cout << t;
-    }
-}
-
-void min(int k, char* list) {
-    int bottom = 0;
-    int num_left = 0;
-
-    for (int j = 0; j < k; j++) {
-        if (list[j] == '>') {
-            num_left++;
-        }
-
-        else {
-            for (int k = bottom + num_left; k >= bottom; k--) {
-                cout << k;
-            }
-            bottom = bottom+num_left+1;
-            num_left = 0;
-        }
-    }
-    for (int t = bottom+num_left; t >= bottom; t--) {
-        cout << t;
-    }
-
-}
-
-
+bool check_one(char a, char b, char oper);
+void comb(int index, string num);
 
 int main() {
-
-    int k;
     cin >> k;
 
-   
-    for (int i = 0; i < k; i++) {
-        cin >> list[i];
+    for (int i = 0; i < k; i++)
+        cin >> sign[i];
+
+    comb(0, "");
+    sort(answers.begin(), answers.end());
+    cout << answers.back() << '\n' << answers.front();
+
+    return 0;
+}
+
+bool check_one(char a, char b, char oper) {
+    if (oper == '<') {
+        if (a > b) return false;
+    }
+    else {
+        if (a < b) return false;
+    }
+    return true;
+}
+
+void comb(int index, string num) {
+    if (index == (k + 1)) {
+        answers.push_back(num);
+        return;
     }
 
-    max(k,list);
-    cout << endl;
-    min(k,list);
-    
-
-
+    for (int i = 0; i <= 9; i++) {
+        if (check[i]) continue;
+        if (index == 0 || check_one(num[index - 1], i + '0', sign[index - 1])) {
+            check[i] = true;
+            comb(index + 1, num + to_string(i));
+            check[i] = false;
+        }
+    }
 }
