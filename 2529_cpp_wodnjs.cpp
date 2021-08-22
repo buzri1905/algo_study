@@ -43,7 +43,7 @@ void make_arr(int idx,int num) {
 				return;
 		}
 		long long val=0;
-		for (int i = 0; i < num+1; i++)
+		for (int i = 0; i <= num; i++)
 		{
 			val *= 10;
 			val += arrange[i];
