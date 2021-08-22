@@ -3,7 +3,6 @@ import collections
 input = sys.stdin.readline
 
 N=int(input())
-prime_list = [2,3,5,7]
 q = collections.deque([2, 3, 5, 7])
 while q:
     cur_prime = str(q.popleft())
