@@ -23,7 +23,7 @@ int main() {
 		if(bfs_ret==-1)
 			cout << "Impossible\n";
 		else
-			cout << vis[to] - 1 << '\n';
+			cout << bfs_ret << '\n';
 	}
 	return 0;
 }
@@ -62,7 +62,7 @@ int bfs(int from, int to) {
 		q.pop();
 	
 		if (front_num== to) 
-			return 0;
+			return vis[to]-1;
 		for (int i = 1; i < 10; i++)//맨 앞자리 수는 0이 올 수 없다.
 		{
 			if (from_arr[0] == i) 
