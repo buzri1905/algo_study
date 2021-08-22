@@ -51,7 +51,7 @@ void make_arr(int idx,int num) {
 		if (minr > val)
 		{
 			minr = val;
-			for (int i = 0; i < num + 1; i++)
+			for (int i = 0; i <= num; i++)
 			{
 				min_arr[i] = arrange[i];
 			}
@@ -59,7 +59,7 @@ void make_arr(int idx,int num) {
 		if (maxr < val)
 		{
 			maxr = val;
-			for (int i = 0; i < num + 1; i++)
+			for (int i = 0; i <= num; i++)
 			{
 				max_arr[i] = arrange[i];
 			}
@@ -75,5 +75,4 @@ void make_arr(int idx,int num) {
 		make_arr(idx + 1,num);
 		used[i] = false;
 	}
-	return;
 }
