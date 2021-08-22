@@ -35,4 +35,4 @@ for _ in range(int(input())):
                     q.append([num, cost+1])
                     visit[num]=1
     if not flag:
-        print('impossible')        
+        print('impossible')
