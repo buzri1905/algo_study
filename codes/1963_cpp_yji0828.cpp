@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstdio>
 #include <queue>
@@ -7,23 +6,22 @@
 #include <cmath>
 using namespace std;
 queue<int> q;
-int check[10001];
 bool prime[10001];
-void bfs(int start, int dest);
+int bfs(int start, int dest);
 void eratos();
 
 
 int main() {
 	int T;
 	int start, dest;
+	int ret_bfs;
 	eratos();
 	scanf("%d", &T);
 	for (int i = 0; i < T; i++) {
-		memset(check, -1, sizeof(check));
 		scanf("%d %d", &start, &dest);
-		bfs(start, dest);
-		if (check[dest] != -1)
-			printf("%d\n", check[dest]);
+		ret_bfs = bfs(start, dest);
+		if (ret_bfs != -1)
+			printf("%d\n", ret_bfs);
 		else
 			printf("Impossible\n");
 	}
@@ -32,26 +30,29 @@ int main() {
 
 void eratos() {
 	memset(prime, true, sizeof(prime));
-	for (int i = 2; i < sqrt(10000); i++) {
-		for (int j = i + i; j < 10000; j += i)
+	for (int i = 2; i * i < 10000; i++) {
+		for (int j = i * i; j < 10000; j += i)
 			prime[j] = false;
 	}
 }
 
-void bfs(int start, int dest) {
+int bfs(int start, int dest) {
 	int cur;
 	int next;
+	int check[10001];
+	memset(check, -1, sizeof(check));
 	q.push(start);
 	check[start] = 0;
+	int cur_q;
 
 	while (!q.empty()) {
 		cur = q.front();
 		q.pop();
-		for (int i = 0; i < 4; i++) {
-			string cur_s = to_string(cur);
+		for (int i = 1000; i >= 1; i = i / 10) { //100
 			for (int j = 0; j <= 9; j++) {
-				cur_s[i] = j + '0';
-				next = stoi(cur_s);
+				if (j == (cur / i))
+					continue;
+				next = cur + (j * i) - ((cur % (i * 10)) / i) * i;
 				if (next >= 1000 && prime[next] == true && check[next] == -1) {
 					check[next] = check[cur] + 1;
 					q.push(next);
@@ -59,6 +60,8 @@ void bfs(int start, int dest) {
 			}
 		}
 	}
+
+	return check[dest];
 
 
 }
