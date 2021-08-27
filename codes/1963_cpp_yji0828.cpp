@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <queue>
 
+#include <cstring>
+#include <cmath>
 using namespace std;
 queue<int> q;
 bool prime[10001];
@@ -48,6 +50,7 @@ int bfs(int start, int dest) {
 		for (int i = 1000; i >= 1; i = i / 10) { //100
 			for (int j = 0; j <= 9; j++) {
 				if (j == (cur / i)%10)
+				if (j == (cur / i) % 10)
 					continue;
 				next = cur + (j * i) - ((cur % (i * 10)) / i) * i;
 				if (next >= 1000 && prime[next] == true && check[next] == -1) {
