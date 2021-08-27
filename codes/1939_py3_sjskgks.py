@@ -15,8 +15,6 @@ min_weight, max_weight = 1, 1000000001
 find_answer=False
 while min_weight<max_weight:
     mid = (min_weight+max_weight)//2
-    if find_answer:
-        break
     visit = [0 for _ in range(numOfIsland+1)]
     q = deque([start])
     visit[start]=1
@@ -32,6 +30,8 @@ while min_weight<max_weight:
                 q.append(next_pos)
                 visit[next_pos]=1
     if can_pass:
+        if max_weight-mid==1:
+            break
         min_weight = mid
     else:
         max_weight=mid
