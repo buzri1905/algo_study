@@ -2,53 +2,43 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include <utility>
 using namespace std;
 
 int k;
 char sign[11];
-int num[11];
-bool check[11];
+bool num_used[11];
 vector<string> answers;
-string maximum, minimum;
-
-bool check_one(char a, char b, char oper);
-void comb(int index, string num);
+pair<string, string> comb(int left_digit, string num, bool num_used[10], char* sign);
 
 int main() {
     cin >> k;
 
-    for (int i = 0; i < k; i++)
+    for (int i = 1; i <= k; i++)
         cin >> sign[i];
 
-    comb(0, "");
-    sort(answers.begin(), answers.end());
-    cout << answers.back() << '\n' << answers.front();
+    pair <string, string> answer = comb(k+1, "", num_used, sign);
+    cout << answer.second << '\n';
+    cout<< answer.first;
 
     return 0;
 }
 
-bool check_one(char a, char b, char oper) {
-    if (oper == '<') {
-        if (a > b) return false;
-    }
-    else {
-        if (a < b) return false;
-    }
-    return true;
-}
+pair<string, string> comb(int left_digit, string num, bool num_used[10], char* sign) {
+    if (left_digit == 0)
+        return make_pair(num, num);
 
-void comb(int index, string num) {
-    if (index == (k + 1)) {
-        answers.push_back(num);
-        return;
-    }
-
+    pair<string, string> ans = make_pair("9999999999", "0");
     for (int i = 0; i <= 9; i++) {
-        if (check[i]) continue;
-        if (index == 0 || check_one(num[index - 1], i + '0', sign[index - 1])) {
-            check[i] = true;
-            comb(index + 1, num + to_string(i));
-            check[i] = false;
-        }
+        if (num_used[i] || (*sign == '>' && (num.back() - '0') % 10 <= i) || (*sign == '<' && (num.back() - '0') % 10 >= i))
+            continue;
+        num_used[i] = true;
+
+        pair<string, string> part = comb(left_digit - 1, num + to_string(i), num_used, sign + 1);
+
+        ans.first = min(ans.first, part.first);
+        ans.second = max(ans.second, part.second);
+        num_used[i] = false;
     }
+    return ans;
 }
