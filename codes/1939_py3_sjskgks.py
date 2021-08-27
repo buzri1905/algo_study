@@ -12,9 +12,9 @@ for _ in range(numOfbridge):
 start, dest = map(int, input().split())
 
 min_weight, max_weight = 1, 1000000001
-mid = (min_weight+max_weight)//2
 find_answer=False
-while True:
+while min_weight<max_weight:
+    mid = (min_weight+max_weight)//2
     if find_answer:
         break
     visit = [0 for _ in range(numOfIsland+1)]
@@ -32,12 +32,7 @@ while True:
                 q.append(next_pos)
                 visit[next_pos]=1
     if can_pass:
-        if max_weight-mid==1:
-            find_answer=True
-            print(mid)
-            break
         min_weight = mid
-        mid = (min_weight+max_weight)//2
     else:
         max_weight=mid
-        mid=(min_weight+max_weight)//2
+print(mid)
