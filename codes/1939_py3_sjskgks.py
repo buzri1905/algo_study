@@ -30,9 +30,7 @@ while min_weight<max_weight:
                 q.append(next_pos)
                 visit[next_pos]=1
     if can_pass:
-        if max_weight-mid==1:
-            break
-        min_weight = mid
+        min_weight = mid+1
     else:
         max_weight=mid
-print(mid)
+print(min_weight-1)
