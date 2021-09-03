@@ -49,7 +49,6 @@ int bfs(int start, int dest) {
 		q.pop();
 		for (int i = 1000; i >= 1; i = i / 10) { //100
 			for (int j = 0; j <= 9; j++) {
-				if (j == (cur / i)%10)
 				if (j == (cur / i) % 10)
 					continue;
 				next = cur + (j * i) - ((cur % (i * 10)) / i) * i;
