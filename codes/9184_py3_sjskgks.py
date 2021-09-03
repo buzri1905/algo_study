@@ -2,8 +2,13 @@ import sys
 input = sys.stdin.readline
 
 def memoization(a, b, c):
+    if a<=0 or b<=0 or c<=0:
+        a, b, c = 0, 0, 0
+    elif a>20 or b>20 or c>20:
+        a, b, c = 20, 20, 20
+    
     if log[a][b][c]!=-1:
-        pass
+        return log[a][b][c]
     elif a==0 or b==0 or c==0:
         log[a][b][c]=1
     elif a<b and b<c:
@@ -16,12 +21,6 @@ def memoization(a, b, c):
 log = [[[-1 for _ in range(21)] for _ in range(21)] for _ in range(21)]
 while True:
     a, b, c = map(int,input().split())
-    sub_a, sub_b, sub_c = a, b, c
     if a==-1 and b==-1 and c==-1:
         break
-    if a<=0 or b<=0 or c<=0:
-        sub_a, sub_b, sub_c = 0, 0, 0
-    else:
-        if a>20 or b>20 or c>20:
-            sub_a, sub_b, sub_c = 20, 20, 20
-    print('w({:d}, {:d}, {:d}) = {:d}'.format(a, b, c, memoization(sub_a,sub_b,sub_c)))
+    print('w({:d}, {:d}, {:d}) = {:d}'.format(a, b, c, memoization(a,b,c)))
