@@ -26,13 +26,10 @@ for _ in range(int(input())):
             print(cost)
             isReached=True
             break
-        division=10
+        division=1
         for _ in range(4):
-            sub_cur=cur
-            remove = (sub_cur%division)//(division//10)
-            sub_cur-=remove*(division//10) # cur에서 각 자리수를 0으로 만듦
             for add in range(10):
-                next_num = sub_cur+add*(division//10)
+                next_num = cur + (-(cur//division%10)+add)*division
                 if next_num<1000:
                     continue
                 if next_num in thousand_overset and not visit[next_num]:
