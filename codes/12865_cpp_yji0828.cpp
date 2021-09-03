@@ -24,8 +24,6 @@ int main(){
 }
 
 int dp_set(int items, int Weight_limit, int * w, int* v) {
-	for (int t = 0; t <= Weight_limit; t++)
-		dp[0][t] = 0;
 
 	for (int j = 1; j <= items; j++) {
 		for (int k = 1; k <= Weight_limit; k++) {
