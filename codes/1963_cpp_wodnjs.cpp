@@ -60,51 +60,23 @@ int bfs(int from, int to) {
 			q.front() /= 10;
 		}
 		q.pop();
-	
-		if (front_num== to) 
-			return vis[to]-1;
-		for (int i = 1; i < 10; i++)//맨 앞자리 수는 0이 올 수 없다.
-		{
-			if (from_arr[0] == i) 
-				continue;
-			int cmp = i * 1000 + from_arr[1] * 100 + from_arr[2] * 10 + from_arr[3];
-			if (!not_prime[cmp]&&vis[cmp]==0)
-			{
-				q.push(cmp);
-				vis[cmp] = vis[front_num] + 1;
-			}
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			if (from_arr[1] == i) 
-				continue;
-			int cmp = from_arr[0] * 1000 + i * 100 + from_arr[2] * 10 + from_arr[3];
-			if (!not_prime[cmp] && vis[cmp] == 0)
-			{
-				q.push(cmp);
-				vis[cmp] = vis[front_num] + 1;
-			}
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			if (from_arr[2] == i) 
-				continue;
-			int cmp = from_arr[0] * 1000 + from_arr[1] * 100 + i * 10 + from_arr[3];
-			if (!not_prime[cmp] && vis[cmp] == 0)
-			{
-				q.push(cmp);
-				vis[cmp] = vis[front_num] + 1;
-			}
-		}
-		for (int i = 0; i < 10; i++)
-		{
-			if (from_arr[3] == i) 
-				continue;
-			int cmp = from_arr[0] * 1000 + from_arr[1] * 100 + from_arr[2] * 10 + i;
-			if (!not_prime[cmp] && vis[cmp] == 0)
-			{
-				q.push(cmp);
-				vis[cmp] = vis[front_num] + 1;
+
+		if (front_num == to)
+			return vis[to] - 1;
+
+		for (int digit = 1; digit <= 1000; digit *= 10) {
+			int digit_num = (front_num / digit) % 10;
+			for (int i = 0; i <= 9; i++) {
+				if (digit_num == i)
+					continue;
+				int next_num = front_num - digit_num * digit + i * digit;
+				if (next_num < 1000)
+					continue;
+				if (!not_prime[next_num] && vis[next_num] == 0)
+				{
+					q.push(next_num);
+					vis[next_num] = vis[front_num] + 1;
+				}
 			}
 		}
 	}
