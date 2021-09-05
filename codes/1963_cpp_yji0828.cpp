@@ -25,6 +25,7 @@ int main() {
 		else
 			printf("Impossible\n");
 	}
+	return 0;
 
 }
 
