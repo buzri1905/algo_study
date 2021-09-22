@@ -1,12 +1,10 @@
 #include <cstdio>
 #include <algorithm>
-#include <vector>
-#include <queue>
-#include <utility>
+
+#define INF 10000
 
 using namespace std;
-int dists[101];
-int sumOfdists[101];
+int sumOfDists[102];
 
 int main(void)
 {   
@@ -16,16 +14,36 @@ int main(void)
     {
         int numOfRooms, numOfPaths;
         scanf("%d %d", &numOfRooms, &numOfPaths);
-        vector<pair<int, int> > edges[10001];
-        for (int i = 0; i < 101; i++)
-            sumOfdists[i] = 0;
+        
+        int edges[102][102];
+        for(int i=1; i<=101; i++){
+            for(int j=1; j<=101; j++){
+                if(i==j) 
+                    edges[i][j] = 0;
+                else 
+                    edges[i][j]= INF;
+                }
+        }
+
+        for (int i = 1; i <= 101; i++) 
+            sumOfDists[i] = 0;
 
         for (int i = 0; i < numOfPaths; i++)
         {
             int from, to, cost;
             scanf("%d %d %d", &from, &to, &cost);
-            edges[from].push_back(make_pair(to, cost));
-            edges[to].push_back(make_pair(from, cost)); // 양방향
+            edges[from][to] = cost;
+            edges[to][from] = cost;
+        }
+
+        for(int k=1; k<=numOfRooms; k++)
+        {
+            for(int i=1; i<=numOfRooms; i++){
+                for(int j=1; j<=numOfRooms; j++)
+                {
+                    edges[i][j] = min(edges[i][k]+edges[k][j], edges[i][j]);
+                }
+            }
         }
 
         int numOfFriends;
@@ -34,37 +52,22 @@ int main(void)
         for (int i = 0; i < numOfFriends; i++)
         {
             int startVertex;
-            for(int j=0; j<101; j++)
-                dists[j]=-1;
             scanf("%d", &startVertex);
-            priority_queue<pair<int, int> > shortDist;
-            shortDist.push(make_pair(0, startVertex));
-            while (!shortDist.empty())
-            {
-                int dist = -shortDist.top().first, node = shortDist.top().second;
-                shortDist.pop();
-                if (dists[node] != -1)
-                    continue;
-                dists[node] = dist;
-                for (vector<pair<int, int> >::iterator iter = edges[node].begin(); iter != edges[node].end(); iter++)
-                {
-                    if (dists[iter->first] == -1)
-                        shortDist.push(make_pair(-(dist + iter->second), iter->first));
-                }
-            }
+           
             for (int j = 1; j <= numOfRooms; j++)
             {
-                sumOfdists[j] += dists[j];
+                sumOfDists[j] += edges[startVertex][j];
             }
         }
 
         int result = -1;
         int num;
+
         for (int i = 1; i <= numOfRooms; i++)
         {
-            if (result == -1 || sumOfdists[i] < result)
+            if (result == -1 || sumOfDists[i] < result)
             {
-                result = sumOfdists[i];
+                result = sumOfDists[i];
                 num = i;
             }
         }
@@ -74,4 +77,3 @@ int main(void)
 
      return 0;
 }
-
