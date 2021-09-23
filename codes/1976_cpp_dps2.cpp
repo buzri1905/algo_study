@@ -20,15 +20,15 @@ int main(void){
 		}
 	}
 	int prevCity;
-    bool isPossible=true;
+    	bool isPossible=true;
 	scanf("%d",&prevCity);
 	for(int i=1;i<numOfPlans;i++){
 		int currentCity;
 		scanf("%d",&currentCity);
 		if(!isSameSet(prevCity,currentCity)){
 			isPossible=false;
-            break;
-        }
+			break;
+		}
 	}
 	printf(isPossible ? "YES\n" : "NO\n");
 	return 0;
