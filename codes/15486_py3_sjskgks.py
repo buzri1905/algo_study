@@ -12,4 +12,3 @@ for day in range(1, last_work+1):
         continue
     max_reward[finish_day] = max(reward+max_day, max_reward[finish_day])
 print(max(max_reward))
-print(max_reward)
