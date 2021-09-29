@@ -27,7 +27,9 @@ while True:
     if not(0 <= x < N and 0 <= y < N):
         break
 
-    if [x,y] in snake:
+    # if [x,y] in snake:
+    #     break
+    if mat[x][y] == 2:
         break
 
     if mat[x][y] == 0:
