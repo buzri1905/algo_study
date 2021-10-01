@@ -6,7 +6,7 @@ sand = []
 for _ in range(sizeOfsand):
     sand.append(list(map(int, input().split())))
     
-def Next_pos(direc, cur_row, cur_col):
+def next_pos(direc, cur_row, cur_col):
     if direc=='left':
         return cur_row, cur_col-1
     elif direc=='down':
@@ -16,31 +16,26 @@ def Next_pos(direc, cur_row, cur_col):
     else:
         return cur_row-1, cur_col
 
-def Next_move(cur_direction, numOfmove):
+def next_move(cur_direction, numOfmove):
     if cur_direction=='left':
-        return ['down', numOfmove]
+        return 'down', numOfmove
     elif cur_direction=='down':
-        return ['right', numOfmove+1]
+        return 'right', numOfmove+1
     elif cur_direction=='right':
-        return ['up', numOfmove]
+        return 'up', numOfmove
     else:
-        return ['left', numOfmove+1]
-    
-def Scatter(row, col): # 공격받은 위치
-    onepercent = sand[row][col]*0.01
-    reserve = sand[row][col] - (2*int(onepercent)+2*int(onepercent*2)+int(onepercent*5)+2*int(onepercent*7)+2*int(onepercent*10))
-    return {1: int(onepercent), 2: int(onepercent*2), 5: int(onepercent*5), 7: int(onepercent*7), 10: int(onepercent*10), 'reserve': reserve}
+        return 'left', numOfmove+1
     
 ## left<->right: col대칭이므로 col에 음수, left<->up: xy대칭 down<->up: row대칭이므로 row에 음수, dic각 원소는 row, col에 더해지는 값
 left_scatter_pos={1:[[-1,1],[1,1]],2:[[-2,0],[2,0]],5:[[0,-2]],7:[[-1,0],[1,0]],10:[[-1,-1],[1,-1]],'reserve':[[0,-1]]}
 down_scatter_pos={1:[],2:[],5:[],7:[],10:[],'reserve':[]}
 right_scatter_pos={1:[],2:[],5:[],7:[],10:[],'reserve':[]}
 up_scatter_pos={1:[],2:[],5:[],7:[],10:[],'reserve':[]}
-for param in [1,2,5,7,10,'reserve']:
-    for r, c in left_scatter_pos[param]:
-        down_scatter_pos[param].append([-c,r])
-        right_scatter_pos[param].append([r,-c])
-        up_scatter_pos[param].append([c,r])
+for percent_value in [1,2,5,7,10,'reserve']:
+    for r, c in left_scatter_pos[percent_value]:
+        down_scatter_pos[percent_value].append([-c,r])
+        right_scatter_pos[percent_value].append([r,-c])
+        up_scatter_pos[percent_value].append([c,r])
 scatter_pos = {'left':left_scatter_pos, 'down':down_scatter_pos, 'right':right_scatter_pos, 'up':up_scatter_pos}
 cur_row, cur_col = sizeOfsand//2, sizeOfsand//2
 cur_direc='up'
@@ -48,20 +43,21 @@ numOfmove=0
 out_sand = 0
 
 while True:
-    if cur_row==0 and cur_col==-1:
+    if not (0<=cur_row<sizeOfsand and 0<=cur_col<sizeOfsand):
         break
-    cur_direc, numOfmove = Next_move(cur_direc, numOfmove)
-    scatter_param = scatter_pos[cur_direc]
+    cur_direc, numOfmove = next_move(cur_direc, numOfmove)
     for _ in range(numOfmove):
-        cur_row, cur_col = Next_pos(cur_direc, cur_row, cur_col) # 공격받은 위치
-        scatterOfsand = Scatter(cur_row, cur_col)
+        cur_row, cur_col = next_pos(cur_direc, cur_row, cur_col) # 공격받은 위치
+        onepercent = sand[cur_row][cur_col]*0.01
+        scatterOfsand = {1: int(onepercent), 2: int(onepercent*2), 5: int(onepercent*5), 7: int(onepercent*7), 10: int(onepercent*10)}
+        scatterOfsand['reserve'] = sand[cur_row][cur_col]-\
+            (2*int(onepercent)+2*int(onepercent*2)+int(onepercent*5)+2*int(onepercent*7)+2*int(onepercent*10))
         sand[cur_row][cur_col]=0
-        for distribution in [1, 2, 5, 7, 10, 'reserve']:
-            scatter = scatterOfsand[distribution]
-            for r_param, c_param in scatter_param[distribution]:
-                distributed_row, distributed_col = cur_row+r_param, cur_col+c_param
-                if distributed_row<0 or distributed_row>= sizeOfsand or distributed_col<0 or distributed_col>=sizeOfsand:
-                    out_sand+=scatter
+        for percent_value, scatter_amount in scatterOfsand.items():
+            for r_move, c_move in scatter_pos[cur_direc][percent_value]:
+                scattered_row, scattered_col = cur_row+r_move, cur_col+c_move
+                if scattered_row<0 or scattered_row>= sizeOfsand or scattered_col<0 or scattered_col>=sizeOfsand:
+                    out_sand+=scatter_amount
                     continue
-                sand[distributed_row][distributed_col]+=scatter
+                sand[scattered_row][scattered_col]+=scatter_amount
 print(out_sand)
