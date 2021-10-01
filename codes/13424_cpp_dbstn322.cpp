@@ -4,7 +4,6 @@
 #define INF 10000
 
 using namespace std;
-int sumOfDists[102];
 
 int main(void)
 {   
@@ -16,13 +15,17 @@ int main(void)
         scanf("%d %d", &numOfRooms, &numOfPaths);
         
         int edges[102][102];
-        for(int i=1; i<=101; i++){
-            for(int j=1; j<=101; j++){
+        int sumOfDists[102];
+
+        for(int i=1; i<=101; i++)
+        {
+            for(int j=1; j<=101; j++)
+            {
                 if(i==j) 
                     edges[i][j] = 0;
                 else 
                     edges[i][j]= INF;
-                }
+            }
         }
 
         for (int i = 1; i <= 101; i++) 
@@ -38,7 +41,8 @@ int main(void)
 
         for(int k=1; k<=numOfRooms; k++)
         {
-            for(int i=1; i<=numOfRooms; i++){
+            for(int i=1; i<=numOfRooms; i++)
+            {
                 for(int j=1; j<=numOfRooms; j++)
                 {
                     edges[i][j] = min(edges[i][k]+edges[k][j], edges[i][j]);
@@ -60,19 +64,19 @@ int main(void)
             }
         }
 
-        int result = -1;
-        int num;
+        int result = sumOfDists[1];
+        int roomNum = 1;
 
-        for (int i = 1; i <= numOfRooms; i++)
+        for (int i = 2; i <= numOfRooms; i++)
         {
-            if (result == -1 || sumOfDists[i] < result)
+            if (sumOfDists[i] < result)
             {
                 result = sumOfDists[i];
-                num = i;
+                roomNum = i;
             }
         }
 
-        printf("%d\n", num);
+        printf("%d\n", roomNum);
     }
 
      return 0;
