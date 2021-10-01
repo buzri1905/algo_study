@@ -42,4 +42,7 @@ int main(void)
     }
 
     printf("%d", dists[lastVertex]);
+
+    return 0;
+    
 }
